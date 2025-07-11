@@ -3,7 +3,7 @@ import { useState } from 'react'
 function App() {
   const [pokemonName, setPokemonName] = useState('');
   const [pokemonSprite, setPokemonSprite] = useState('');
-  const [pokemonType, setPokemonType] = useState('');
+  const [pokemonType, setPokemonType] = useState([]);
 
   async function fetchPokemon() {
     try{
@@ -16,8 +16,8 @@ function App() {
       const pokemonSprite = data.sprites.front_default;
       setPokemonSprite(pokemonSprite);
 
-      const pokemonType = data.types.map(typeInfo => typeInfo.type.name).join(' ');
-      setPokemonType(pokemonType);
+      const typesArray = data.types.map(typeInfo => typeInfo.type.name);
+      setPokemonType(typesArray);
     }
     catch(error){
       console.error(error);
@@ -48,7 +48,16 @@ function App() {
             style={{ display: pokemonSprite ? 'block' : 'none' }}
             className="mt-4 w-xs h-xs object-contain"
           />
-          <h3 className="mt-2 text-lg font-semibold text-gray-800">{pokemonType}</h3>
+          <div className='flex space-x-2'>
+          {pokemonType.map((type, idx) => (
+            <h3
+              key={idx}
+              className="p-2 w-18 text-center rounded-md mt-2 text-lg font-semibold text-gray-800 bg-blue-200"
+            >
+              {type}
+            </h3>
+          ))}
+          </div>
         </div>
       </div>
     </div>

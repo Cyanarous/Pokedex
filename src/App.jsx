@@ -86,8 +86,8 @@ function getTypeBackground(types) {
   }
 
   return(
-    <div className="min-h-screen bg-gray-100" style={{ background: getTypeBackground(pokemonType) }}>
-      <header className="bg-red-500 w-full flex items-center justify-center md:justify-start shadow">
+    <div className="max-h-screen md:min-h-screen bg-gray-100" style={{ background: getTypeBackground(pokemonType) }}>
+      <header className="bg-red-500 w-full h-20 flex items-center justify-center md:justify-start shadow">
         <div className="flex items-center space-x-4 md:ml-8">
           <h1 className="text-xl md:text-6xl font-bold text-white">Pokédex</h1>
           <input
@@ -95,14 +95,14 @@ function getTypeBackground(types) {
             value={pokemonName}
             onChange={e => setPokemonName(e.target.value)}
             placeholder="Search for a Pokémon"
-            className="border p-2 rounded mr-0 w-40 md:w-2xl flex-"
+            className="border p-2 rounded mr-0 w-42 h-10 md:h-13 md:w-2xl flex-"
           />
           <button onClick={fetchPokemon} className="bg-white-200 text-blue-600 p-2 rounded text-3xl">🔍</button>
         </div>
       </header>
       <div className="flex justify-center flex-col items-center">
         <div className="flex flex-col md:flex-row w-full max-w-6xl items-start">
-          <div className="p-2 rounded shadow-md flex flex-col items-center relative md:mr-8 md:self-stretch md:w-1/2 mx-auto"
+          <div className="p-2 rounded shadow-md flex flex-col items-center w-full relative md:mr-8 md:self-stretch md:w-1/2 mx-auto"
             style={{
               minHeight: '300px',
               background: getTypeBackground(pokemonType),
@@ -132,7 +132,7 @@ function getTypeBackground(types) {
               ))}
             </div>
           </div>
-          <div className="flex flex-col bg-white/70 items-start p-4 justify-start mt-8 md:mt-8 md:w-1/2 space-y-2 text-left">
+          <div className="flex flex-col rounded-lg bg-white/70 items-start p-4 justify-start mt-8 md:mt-8 md:w-1/2 space-y-2 text-left">
             <h3 className="text-md md:text-lg font-semibold text-gray-800 mb-4 md:mb-8">
               {pokemonFlavorText}
             </h3>

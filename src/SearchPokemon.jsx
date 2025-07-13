@@ -61,7 +61,7 @@ function searchPokemon() {
                 {pokemonType.map((type, idx) => (
                     <span
                     key={idx}
-                    className="min-w-[60px] px-2 py-1 text-[10px] md:text-xs font-bold text-white text-center rounded shadow border border-black/70"
+                    className="min-w-[75px] md:min-w-[130px] px-1 py-1 text-[7px] md:text-xs font-bold text-white text-center rounded shadow border border-black/70"
                     style={{ backgroundColor: typeColors[type] }}
                     >
                     {type}
@@ -72,21 +72,21 @@ function searchPokemon() {
 
             {/* Flavor Text and Stats */}
                 <div className="w-[50%] min-w-[180px] bg-white/70 rounded-lg p-4 h-full min-h-[260px] flex flex-col justify-between">
-                    <p className="text-[10px] md:text-base font-semibold text-gray-800">
+                    <p className="text-[12px] md:text-base font-semibold text-gray-800">
                     {pokemonFlavorText}
                     </p>
                     <div className="mt-auto space-y-1">
-                    <p className="text-[8px] md:text-sm text-gray-700 font-semibold">
+                    <p className="text-[10px] md:text-sm text-gray-700 font-semibold">
                         Weight: {pokemonWeight ? `${pokemonWeight / 10}kg` : 'N/A'}
                     </p>
-                    <p className="text-[8px] md:text-sm text-gray-700 font-semibold">
+                    <p className="text-[10px] md:text-sm text-gray-700 font-semibold">
                         Height: {pokemonHeight ? `${pokemonHeight / 10}m` : 'N/A'}
                     </p>
                     </div>
                 </div>
             </div>
-
       </div>
+      {/* placement of the weakness, stats, etc */}
     </div>
   );
 }

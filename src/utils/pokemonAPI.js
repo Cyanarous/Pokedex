@@ -47,6 +47,7 @@ export async function fetchPokemonData(pokemonName) {
     const pokemonData = await pokemonResponse.json();
     const speciesData = await speciesResponse.json();
 
+    const name = pokemonData.name;
     const sprite = pokemonData.sprites.front_default;
     const id = pokemonData.id;
     const types = pokemonData.types.map(typeInfo => typeInfo.type.name);
@@ -64,6 +65,7 @@ export async function fetchPokemonData(pokemonName) {
     }));
 
     return {
+      name,
       sprite,
       id,
       types,

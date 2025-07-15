@@ -58,6 +58,11 @@ export async function fetchPokemonData(pokemonName) {
     const rawText = speciesData.flavor_text_entries.find(e => e.language.name === "en")?.flavor_text || "";
     const flavorText = rawText.replace(/[\n\f\r]/g, " ");
 
+    const stats = pokemonData.stats.map(stat => ({
+      name: stat.stat.name,
+      value: stat.base_stat,
+    }));
+
     return {
       sprite,
       id,
@@ -65,12 +70,14 @@ export async function fetchPokemonData(pokemonName) {
       weight,
       height,
       genus,
-      flavorText
+      flavorText,
+      stats,
     };
   } catch (error) {
     console.error(error);
     throw error;
   }
 }
+
 
 export { typeColors };

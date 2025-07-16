@@ -81,5 +81,11 @@ export async function fetchPokemonData(pokemonName) {
   }
 }
 
+export async function fetchPokemonList(limit = 151 ) {
+  const response = await fetch(`https://pokeapi.co/api/v2/pokemon?${limit}`);
+  if (!response.ok) {
+    throw new Error("Failed to fetch Pokémon list");
+  }
+}
 
 export { typeColors };

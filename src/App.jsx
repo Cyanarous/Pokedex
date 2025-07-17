@@ -1,26 +1,17 @@
-import { useState } from 'react';
-import SearchBar from './components/SearchBar';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import PokemonList from './components/PokemonList';
-import { fetchPokemonData } from './utils/pokemonAPI';
+import PokemonDetail from './components/PokemonDetail';
+import SearchBar from './components/SearchBar';
 
 function App() {
-  const [searchResults, setSearchResults] = useState([]);
-
-  const handleSearch = async (query) => {
-    try {
-      const response = await fetchPokemonData(query);
-      setSearchResults([response]); // wrap in array for list view
-    } catch (err) {
-      console.error(err);
-      setSearchResults([]); // fallback to empty list
-    }
-  };
-
   return (
-    <div>
-      <SearchBar onSearch={handleSearch} />
-      <PokemonList pokemons={searchResults} />
-    </div>
+    <Router>
+      <SearchBar />
+      <Routes>
+        <Route path="/" element={<PokemonList />} />
+        <Route path="/pokemon/:name" element={<PokemonDetail />} />
+      </Routes>
+    </Router>
   );
 }
 

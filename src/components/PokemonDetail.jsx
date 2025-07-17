@@ -1,27 +1,29 @@
-import { useState,useEffect } from 'react';
+// PokemonDetail.jsx
+import { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import { fetchPokemonData, getTypeBackground, typeColors } from '../utils/pokemonAPI';
 import StatBar from './StatBar';
 import WeaknessChart from './WeaknessChart';
 
-function PokemonDetail({ query }) {
+function PokemonDetail() {
+  const { name } = useParams();
   const [pokemonData, setPokemonData] = useState(null);
-  
 
-   useEffect(() => {
-    if (!query) return;
+  useEffect(() => {
+    if (!name) return;
 
     async function fetchData() {
       try {
-        const data = await fetchPokemonData(query);
+        const data = await fetchPokemonData(name);
         setPokemonData(data);
       } catch (error) {
         console.error('Failed to fetch Pokémon:', error);
-        setPokemonData(null); 
+        setPokemonData(null);
       }
     }
 
     fetchData();
-  }, [query]);
+  }, [name]);
 
   if (!pokemonData) return null;
 

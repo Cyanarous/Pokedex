@@ -13,12 +13,17 @@ function SearchBar({ onSearch }) {
 
   const homeClick = () => {
     navigate('/');
-  }
+  };
+
   return (
     <header className="bg-red-500 w-full h-20 flex items-center justify-center md:justify-start shadow">
       <div className="flex items-center space-x-4 md:ml-8">
-        <h1 className="text-xl md:text-6xl font-bold text-white"
-        onClick={homeClick}>Pokédex</h1>
+        <h1
+          className="text-xl md:text-6xl font-bold text-white cursor-pointer"
+          onClick={homeClick}
+        >
+          Pokédex
+        </h1>
         <input
           type="text"
           value={input}

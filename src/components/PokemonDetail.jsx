@@ -124,7 +124,7 @@ function PokemonDetail() {
                   {pokemonData.abilities.map((ability, idx) => (
                     <li
                       key={idx}
-                      className={`text-[10px] md:text-sm bg-amber-50 font-semibold text-gray-800 border border-gray-500 rounded p-2 cursor-pointer ${selectedAbility === ability ? 'ring-2 ring-blue-400' : ''}`}
+                      className={`text-[10px] md:text-sm bg-amber-50 font-semibold text-gray-800 border border-gray-500 rounded p-2 cursor-pointer ${selectedAbility === ability ? 'ring-2 ring-yellow-400' : ''}`}
                       onClick={() => handleAbilityClick(ability)}
                     >
                       {ability.charAt(0).toUpperCase() + ability.slice(1)}
@@ -133,12 +133,11 @@ function PokemonDetail() {
                 </ul>
               )}
               {selectedAbility && (
-                <div className="mt-4 p-3 bg-blue-50 border border-blue-300 rounded">
-                  <h4 className="font-bold text-blue-800 mb-1">{selectedAbility.charAt(0).toUpperCase() + selectedAbility.slice(1)}</h4>
+                <div className="mt-4 p-3 bg-white/80 border border-gray-300 rounded">
                   {loadingAbility ? (
-                    <p className="text-blue-700 text-xs">Loading...</p>
+                    <p className="text-gray-700 text-xs">Loading...</p>
                   ) : (
-                    <p className="text-blue-700 text-xs">{abilityDescription}</p>
+                    <p className="text-gray-700 text-xs">{abilityDescription}</p>
                   )}
                 </div>
               )}

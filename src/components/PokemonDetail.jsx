@@ -1,4 +1,3 @@
-// PokemonDetail.jsx
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { fetchPokemonData, getTypeBackground, typeColors } from '../utils/pokemonAPI';
@@ -27,37 +26,51 @@ function PokemonDetail() {
 
   if (!pokemonData) return null;
 
+  const borderBackground =
+    pokemonData?.types?.length > 1
+      ? `linear-gradient(135deg, ${typeColors[pokemonData.types[0]]}, ${typeColors[pokemonData.types[1]]})`
+      : typeColors[pokemonData?.types?.[0]] || '#ccc';
+
   return (
     <div
-      className="min-h-screen bg-gray-100"
+      className="min-h-screen bg-gray-100 pt-4"
       style={{ background: getTypeBackground(pokemonData?.types || []) }}
     >
       {pokemonData?.sprite && (
         <div className="flex flex-col items-center gap-2">
           <div className="flex flex-wrap justify-center gap-1 max-w-6xl w-full">
+            
+            {/* Gradient Border Wrapper */}
             <div
-              className="w-[45%] md:w-[45%] min-w-[200px] rounded flex flex-col items-center pt-4 min-h-[280px]"
-              style={{ background: getTypeBackground(pokemonData?.types || []) }}
+              className="p-[4px] rounded-xl w-[45%] md:w-[45%] min-w-[200px]"
+              style={{ background: borderBackground }}
             >
-              <img
-                src={pokemonData?.sprite}
-                alt="Pokemon Sprite"
-                className="w-30 h-30 md:w-36 md:h-36 object-contain"
-              />
-              <h2 className="text-lg md:text-xl font-bold text-gray-800 text-center mt-2">
-                {pokemonData?.name?.toUpperCase()} #{pokemonData?.id}
-              </h2>
-              <h3 className="text-xs font-semibold text-gray-800">{pokemonData?.genus}</h3>
-              <div className="flex flex-wrap justify-center gap-1 mt-2">
-                {pokemonData?.types.map((type, idx) => (
-                  <span
-                    key={idx}
-                    className="min-w-[80px] md:min-w-[130px] px-2 py-1 text-[8px] md:text-xs font-bold text-white text-center rounded shadow border border-black/70"
-                    style={{ backgroundColor: typeColors[type] }}
-                  >
-                    {type}
-                  </span>
-                ))}
+              <div
+                className="rounded-lg flex flex-col items-center pt-4 min-h-[280px] shadow-md"
+                style={{
+                  background: getTypeBackground(pokemonData?.types || []),
+                }}
+              >
+                <img
+                  src={pokemonData?.sprite}
+                  alt="Pokemon Sprite"
+                  className="w-30 h-30 md:w-36 md:h-36 object-contain"
+                />
+                <h2 className="text-lg md:text-xl font-bold text-gray-800 text-center mt-2">
+                  {pokemonData?.name?.toUpperCase()} #{pokemonData?.id}
+                </h2>
+                <h3 className="text-xs text-center font-semibold text-gray-800">{pokemonData?.genus}</h3>
+                <div className="flex flex-wrap justify-center gap-1 mt-2">
+                  {pokemonData?.types.map((type, idx) => (
+                    <span
+                      key={idx}
+                      className="min-w-[80px] md:min-w-[130px] px-2 py-1 text-[8px] md:text-xs font-bold text-white text-center rounded shadow border border-black/70"
+                      style={{ backgroundColor: typeColors[type] }}
+                    >
+                      {type}
+                    </span>
+                  ))}
+                </div>
               </div>
             </div>
 
@@ -79,7 +92,7 @@ function PokemonDetail() {
                 {pokemonData?.stats.map((stat, idx) => (
                   <StatBar key={idx} name={stat.name} value={stat.value} />
                 ))}
-                <div className="mt-4 w-full flex justify-between px-2">
+                <div className="mt-2 w-full flex justify-between px-2">
                   <span className="text-[10px] font-semibold text-gray-700 uppercase pb-3">Total</span>
                   <span className="text-[10px] font-bold text-gray-900">
                     {pokemonData?.stats.reduce((total, stat) => total + stat.value, 0)}
@@ -87,9 +100,20 @@ function PokemonDetail() {
                 </div>
               </div>
             </div>
-
-            <div className="w-full md:w-[50%] min-w-[180px] bg-white/70 rounded-lg shadow-md p-4 min-h-[200px] flex flex-col justify-start">
+            <div className="w-full md:w-[50%] min-w-[180px] bg-white/70 rounded shadow-md p-4 min-h-[200px] flex flex-col justify-start">
               {pokemonData?.types.length > 0 && <WeaknessChart types={pokemonData.types} />}
+              {pokemonData?.abilities.length > 0 && (
+                <ul className='flex col-auto flex-wrap gap-4 mt-4'>
+                  {pokemonData.abilities.map((ability, idx) => (
+                    <li
+                      key={idx}
+                      className="text-[10px] md:text-sm bg-amber-50 font-semibold text-gray-800 border border-gray-500 rounded p-2"
+                    >
+                      {ability.charAt(0).toUpperCase() + ability.slice(1)}
+                    </li>
+                  ))}
+                </ul>
+              )}
             </div>
           </div>
         </div>

@@ -55,10 +55,9 @@ export function getTypeBackground(types) {
 }
 
 
-export async function fetchPokemonData(pokemonName) {
+export async function fetchPokemonData(query) {
   try {
-
-    const sanitizedQuery = pokemonName.trim().toLowerCase().replace(/\s+/g, '-');
+    const sanitizedQuery = String(query).trim().toLowerCase().replace(/\s+/g, '-');
     const pokemonResponse = await fetch(`https://pokeapi.co/api/v2/pokemon/${sanitizedQuery}`);
     const speciesResponse = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${sanitizedQuery}`);
 
@@ -69,7 +68,6 @@ export async function fetchPokemonData(pokemonName) {
     const pokemonData = await pokemonResponse.json();
     const speciesData = await speciesResponse.json();
 
-    //clean name
     const displayName = pokemonData.name
       .split('-')
       .map(word => word.charAt(0).toUpperCase() + word.slice(1))
@@ -77,12 +75,12 @@ export async function fetchPokemonData(pokemonName) {
 
     const sprite = pokemonData.sprites.front_default;
     const id = pokemonData.id;
-    const types = pokemonData.types.map(typeInfo => typeInfo.type.name);
+    const types = pokemonData.types.map(t => t.type.name);
     const weight = pokemonData.weight;
     const height = pokemonData.height;
+    const abilities = pokemonData.abilities.map(a => a.ability.name);
 
     const genus = speciesData.genera.find(gen => gen.language.name === "en")?.genus || "";
-
     const rawText = speciesData.flavor_text_entries.find(e => e.language.name === "en")?.flavor_text || "";
     const flavorText = rawText.replace(/[\n\f\r]/g, " ");
 
@@ -92,7 +90,7 @@ export async function fetchPokemonData(pokemonName) {
     }));
 
     return {
-      name: displayName,  // ✔ Clean name for display
+      name: displayName,
       sprite,
       id,
       types,
@@ -101,6 +99,7 @@ export async function fetchPokemonData(pokemonName) {
       genus,
       flavorText,
       stats,
+      abilities,
     };
   } catch (error) {
     console.error(error);
@@ -124,6 +123,17 @@ export async function fetchPokemonList(limit = 151) {
   );
 
   return detailedData;
+}
+
+export async function fetchAbility(abilityName){
+  const abilityResponse = await fetch(`https://pokeapi.co/api/v2/ability/${abilityName}`);
+  const abilityData = await abilityResponse.json();
+  const englishEffect = abilityData.effect_entries.find(entry => entry.language.name === "en")?.effect;
+
+  return {
+    name: abilityData.name,
+    effect: englishEffect || "No effect description available.",
+  };
 }
 
 export { typeColors };

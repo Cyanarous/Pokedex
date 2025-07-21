@@ -28,9 +28,15 @@ function SearchBar({ onSearch }) {
           type="text"
           value={input}
           onChange={(e) => setInput(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              handleSearch();
+            }
+          }}
           placeholder="Search for a Pokémon"
           className="border p-2 rounded w-40 md:w-160 h-10 text-sm"
         />
+
         <button
           onClick={handleSearch}
           className="bg-white text-blue-600 p-2 rounded text-2xl"

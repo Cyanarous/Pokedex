@@ -6,7 +6,7 @@ import SearchBar from './components/SearchBar';
 
 function AppWrapper() {
   const navigate = useNavigate();
-  const [selectedRegion, setSelectedRegion] = useState('hoenn');
+  const [selectedRegion, setSelectedRegion] = useState('kanto');
 
   const handleSearch = (name) => {
     if (typeof name === 'string') {

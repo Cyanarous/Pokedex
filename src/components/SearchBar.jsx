@@ -34,7 +34,7 @@ function SearchBar({ onSearch }) {
             }
           }}
           placeholder="Search for a Pokémon"
-          className="border p-2 rounded w-40 md:w-160 h-10 text-sm"
+          className="border p-2 rounded w-40 md:w-200 h-10 text-sm"
         />
 
         <button

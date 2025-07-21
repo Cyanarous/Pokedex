@@ -6,7 +6,7 @@ import SearchBar from './components/SearchBar';
 
 function AppWrapper() {
   const navigate = useNavigate();
-  const [selectedRegion, setSelectedRegion] = useState('kanto');
+  const [selectedRegion, setSelectedRegion] = useState('hoenn');
 
   const handleSearch = (name) => {
     if (typeof name === 'string') {
@@ -18,7 +18,7 @@ function AppWrapper() {
     <>
       <SearchBar onSearch={handleSearch} />
       <Routes>
-        <Route path="/" element={<PokemonList selectedRegion={selectedRegion} />} />
+        <Route path="/" element={<PokemonList selectedRegion={selectedRegion} onRegionChange={setSelectedRegion} />} />
         <Route path="/pokemon/:name" element={<PokemonDetail />} />
       </Routes>
     </>

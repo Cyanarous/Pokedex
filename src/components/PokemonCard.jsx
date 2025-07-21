@@ -2,11 +2,11 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { typeColors, getTypeBackground } from '../utils/pokemonAPI';
 
-function PokemonCard({ name, id, sprite, types }) {
+function PokemonCard({ name, id, sprite, types, slug }) {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate(`/pokemon/${name.toLowerCase()}`);
+    navigate(`/pokemon/${slug}`);
   };
 
   // Create gradient from typeColors (for border)

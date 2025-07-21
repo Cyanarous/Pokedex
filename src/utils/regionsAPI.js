@@ -6,7 +6,7 @@ export async function getPokemonsByRegion(region) {
   if (!range) throw new Error(`Unknown region: ${region}`);
 
   const promises = [];
-  for (let id = range.start; id <= range.end; id++) {
+  for (let id = range.min; id <= range.max; id++) {
     promises.push(fetchPokemonData(id.toString()));
   }
 

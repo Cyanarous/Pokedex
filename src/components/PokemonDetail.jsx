@@ -1,20 +1,25 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { fetchPokemonData, getTypeBackground, typeColors } from '../utils/pokemonAPI';
+import { fetchPokemonData, fetchAbility, getTypeBackground, typeColors } from '../utils/pokemonAPI';
 import StatBar from './StatBar';
 import WeaknessChart from './WeaknessChart';
 
 function PokemonDetail() {
-  const { name } = useParams();
+  const { name: slug } = useParams();
   const [pokemonData, setPokemonData] = useState(null);
+  const [selectedAbility, setSelectedAbility] = useState(null);
+  const [abilityDescription, setAbilityDescription] = useState('');
+  const [loadingAbility, setLoadingAbility] = useState(false);
 
   useEffect(() => {
-    if (!name) return;
+    if (!slug) return;
 
     async function fetchData() {
       try {
-        const data = await fetchPokemonData(name);
+        const data = await fetchPokemonData(slug);
         setPokemonData(data);
+        setSelectedAbility(null);
+        setAbilityDescription('');
       } catch (error) {
         console.error('Failed to fetch Pokémon:', error);
         setPokemonData(null);
@@ -22,7 +27,20 @@ function PokemonDetail() {
     }
 
     fetchData();
-  }, [name]);
+  }, [slug]);
+
+  const handleAbilityClick = async (ability) => {
+    setSelectedAbility(ability);
+    setLoadingAbility(true);
+    try {
+      const data = await fetchAbility(ability);
+      setAbilityDescription(data.effect);
+    } catch (e) {
+      setAbilityDescription('Failed to load ability description.');
+    } finally {
+      setLoadingAbility(false);
+    }
+  }; 
 
   if (!pokemonData) return null;
 
@@ -39,7 +57,6 @@ function PokemonDetail() {
       {pokemonData?.sprite && (
         <div className="flex flex-col items-center gap-2">
           <div className="flex flex-wrap justify-center gap-1 max-w-6xl w-full">
-            
             {/* Gradient Border Wrapper */}
             <div
               className="p-[4px] rounded-xl w-[45%] md:w-[45%] min-w-[200px]"
@@ -107,12 +124,23 @@ function PokemonDetail() {
                   {pokemonData.abilities.map((ability, idx) => (
                     <li
                       key={idx}
-                      className="text-[10px] md:text-sm bg-amber-50 font-semibold text-gray-800 border border-gray-500 rounded p-2"
+                      className={`text-[10px] md:text-sm bg-amber-50 font-semibold text-gray-800 border border-gray-500 rounded p-2 cursor-pointer ${selectedAbility === ability ? 'ring-2 ring-blue-400' : ''}`}
+                      onClick={() => handleAbilityClick(ability)}
                     >
                       {ability.charAt(0).toUpperCase() + ability.slice(1)}
                     </li>
                   ))}
                 </ul>
+              )}
+              {selectedAbility && (
+                <div className="mt-4 p-3 bg-blue-50 border border-blue-300 rounded">
+                  <h4 className="font-bold text-blue-800 mb-1">{selectedAbility.charAt(0).toUpperCase() + selectedAbility.slice(1)}</h4>
+                  {loadingAbility ? (
+                    <p className="text-blue-700 text-xs">Loading...</p>
+                  ) : (
+                    <p className="text-blue-700 text-xs">{abilityDescription}</p>
+                  )}
+                </div>
               )}
             </div>
           </div>

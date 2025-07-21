@@ -59,7 +59,9 @@ export async function fetchPokemonData(query) {
   try {
     const sanitizedQuery = String(query).trim().toLowerCase().replace(/\s+/g, '-');
     const pokemonResponse = await fetch(`https://pokeapi.co/api/v2/pokemon/${sanitizedQuery}`);
-    const speciesResponse = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${sanitizedQuery}`);
+    // If the slug contains a dash, use only the part before the dash for species
+    const baseSlug = sanitizedQuery.split('-')[0];
+    const speciesResponse = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${baseSlug}`);
 
     if (!pokemonResponse.ok || !speciesResponse.ok) {
       throw new Error("Could not fetch data");
@@ -91,6 +93,7 @@ export async function fetchPokemonData(query) {
 
     return {
       name: displayName,
+      slug: pokemonData.name,
       sprite,
       id,
       types,
